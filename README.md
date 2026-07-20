@@ -335,7 +335,8 @@ git push
 ```
 
 ## Author
-
+-admin@gmai.com
+-pass:Admin@12345
 **Taj22-47271-1**
 
 GitHub repository:  
@@ -345,5 +346,3 @@ GitHub repository:
 
 No open-source license has been selected yet. Add a `LICENSE` file before allowing public reuse, modification, or distribution.
 ##
-admin@gmai.com
-pass:Admin@12345
