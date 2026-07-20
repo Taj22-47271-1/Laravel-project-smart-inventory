@@ -1,0 +1,1 @@
+# Laravel-project-smart-inventory
