@@ -37,7 +37,7 @@ class RemainingModulesSmokeTest extends TestCase
         $this->actingAs($user);
 
         $routes = [
-            'inventory-dashboard',
+            'dashboard',
             'sale-returns.index',
             'sale-returns.manage',
             'purchase-returns.index',

@@ -97,7 +97,7 @@ class PaymentService
     }
 
     private function record(
-        Model $payable,
+        Sale|Purchase $payable,
         string $direction,
         float $amount,
         string $paymentDate,

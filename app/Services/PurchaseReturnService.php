@@ -84,6 +84,7 @@ class PurchaseReturnService
                     ]);
                 }
 
+                /** @var Product $product */
                 $product = Product::query()
                     ->withTrashed()
                     ->with('inventory')

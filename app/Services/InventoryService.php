@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Inventory;
 use App\Models\Product;
 use App\Models\StockMovement;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -25,7 +26,7 @@ class InventoryService
         ?float $unitCost = null,
         ?Model $reference = null,
         ?string $notes = null,
-        ?int $createdBy = null
+        User|int|null $createdBy = null
     ): StockMovement {
         $this->validateQuantity($quantity);
 
@@ -85,7 +86,7 @@ class InventoryService
         ?float $unitCost = null,
         ?Model $reference = null,
         ?string $notes = null,
-        ?int $createdBy = null
+        User|int|null $createdBy = null
     ): StockMovement {
         $this->validateQuantity($quantity);
 

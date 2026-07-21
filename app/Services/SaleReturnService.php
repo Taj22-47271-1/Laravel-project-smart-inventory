@@ -74,13 +74,15 @@ class SaleReturnService
                     ]);
                 }
 
+                /** @var Product $product */
+                /** @var Product $product */
                 $product = Product::query()
                     ->withTrashed()
                     ->with('inventory')
                     ->findOrFail($returnItem->product_id);
 
                 $unitCost = (float) (
-                    $product->inventory?->average_cost
+                    optional($product->inventory)->average_cost
                     ?? $product->purchase_price
                     ?? 0
                 );

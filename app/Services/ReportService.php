@@ -10,6 +10,9 @@ use App\Models\SaleReturn;
 
 class ReportService
 {
+    /**
+     * @return array<string, float|int>
+     */
     public function summary(string $dateFrom, string $dateTo): array
     {
         $sales = Sale::query()

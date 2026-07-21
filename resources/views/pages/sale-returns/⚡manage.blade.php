@@ -18,7 +18,7 @@ new class extends Component
     public function updatedSearch(): void { $this->resetPage(); }
     public function updatedStatus(): void { $this->resetPage(); }
 
-    public function view(int $id): void
+    public function open(int $id): void
     {
         $this->selectedId = $id;
         unset($this->selectedReturn);
@@ -100,7 +100,7 @@ new class extends Component
                 <thead class="bg-gray-50 dark:bg-gray-800"><tr><th class="px-4 py-3">Return</th><th class="px-4 py-3">Sale</th><th class="px-4 py-3">Customer</th><th class="px-4 py-3">Date</th><th class="px-4 py-3 text-center">Items</th><th class="px-4 py-3 text-right">Refund</th><th class="px-4 py-3">Status</th><th class="px-4 py-3 text-right">Actions</th></tr></thead>
                 <tbody class="divide-y">
                     @forelse ($this->returns as $return)
-                        <tr wire:key="sale-return-{{ $return->id }}"><td class="px-4 py-4 font-semibold">{{ $return->return_number }}</td><td class="px-4 py-4">{{ $return->sale->sale_number }}</td><td class="px-4 py-4">{{ $return->sale->customer?->name ?? 'Walk-in Customer' }}</td><td class="px-4 py-4">{{ $return->return_date->format('d M Y') }}</td><td class="px-4 py-4 text-center">{{ $return->items_count }}</td><td class="px-4 py-4 text-right font-semibold">৳{{ number_format((float) $return->refund_amount, 2) }}</td><td class="px-4 py-4 capitalize">{{ $return->status }}</td><td class="px-4 py-4"><div class="flex justify-end gap-2"><button wire:click="view({{ $return->id }})" class="rounded bg-gray-100 px-3 py-2">View</button>@if ($return->isDraft()) @can('complete sale returns')<button wire:click="complete({{ $return->id }})" wire:confirm="Complete and restore stock?" class="rounded bg-green-100 px-3 py-2 text-green-700">Complete</button>@endcan @can('cancel sale returns')<button wire:click="cancel({{ $return->id }})" wire:confirm="Cancel this return?" class="rounded bg-red-100 px-3 py-2 text-red-700">Cancel</button>@endcan @endif</div></td></tr>
+                        <tr wire:key="sale-return-{{ $return->id }}"><td class="px-4 py-4 font-semibold">{{ $return->return_number }}</td><td class="px-4 py-4">{{ $return->sale->sale_number }}</td><td class="px-4 py-4">{{ $return->sale->customer?->name ?? 'Walk-in Customer' }}</td><td class="px-4 py-4">{{ $return->return_date->format('d M Y') }}</td><td class="px-4 py-4 text-center">{{ $return->items_count }}</td><td class="px-4 py-4 text-right font-semibold">৳{{ number_format((float) $return->refund_amount, 2) }}</td><td class="px-4 py-4 capitalize">{{ $return->status }}</td><td class="px-4 py-4"><div class="flex justify-end gap-2"><button wire:click="open({{ $return->id }})" class="rounded bg-gray-100 px-3 py-2">View</button>@if ($return->isDraft()) @can('complete sale returns')<button wire:click="complete({{ $return->id }})" wire:confirm="Complete and restore stock?" class="rounded bg-green-100 px-3 py-2 text-green-700">Complete</button>@endcan @can('cancel sale returns')<button wire:click="cancel({{ $return->id }})" wire:confirm="Cancel this return?" class="rounded bg-red-100 px-3 py-2 text-red-700">Cancel</button>@endcan @endif</div></td></tr>
                     @empty <tr><td colspan="8" class="px-4 py-10 text-center text-gray-500">No sale returns found.</td></tr> @endforelse
                 </tbody>
             </table>

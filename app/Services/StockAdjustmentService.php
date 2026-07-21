@@ -41,6 +41,8 @@ class StockAdjustmentService
             }
 
             foreach ($adjustment->items as $item) {
+                /** @var Product $product */
+                /** @var Product $product */
                 $product = Product::query()
                     ->withTrashed()
                     ->with('inventory')
@@ -49,7 +51,7 @@ class StockAdjustmentService
                 $quantity = (float) $item->quantity;
                 $unitCost = $item->unit_cost !== null
                     ? (float) $item->unit_cost
-                    : (float) ($product->inventory?->average_cost ?? $product->purchase_price ?? 0);
+                    : (float) (optional($product->inventory)->average_cost ?? $product->purchase_price ?? 0);
 
                 if ($quantity <= 0) {
                     throw ValidationException::withMessages([

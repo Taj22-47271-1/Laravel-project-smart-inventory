@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class StockAdjustment extends Model
 {
+    /** @use HasFactory<Factory<static>> */
     use HasFactory;
     use SoftDeletes;
 
@@ -38,11 +40,13 @@ class StockAdjustment extends Model
         ];
     }
 
+    /** @return HasMany<StockAdjustmentItem, $this> */
     public function items(): HasMany
     {
         return $this->hasMany(StockAdjustmentItem::class);
     }
 
+    /** @return BelongsTo<User, $this> */
     public function createdBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
