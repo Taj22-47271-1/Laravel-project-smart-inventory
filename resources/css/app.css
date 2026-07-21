@@ -1,0 +1,1041 @@
+@import 'tailwindcss';
+@import '../../vendor/livewire/flux/dist/flux.css';
+
+@source '../views';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../vendor/livewire/flux/stubs/**/*.blade.php';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    --font-sans:
+        'Instrument Sans',
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        'Segoe UI',
+        sans-serif;
+
+    --color-gray-50: #f8fafc;
+    --color-gray-100: #f1f5f9;
+    --color-gray-200: #e2e8f0;
+    --color-gray-300: #cbd5e1;
+    --color-gray-400: #94a3b8;
+    --color-gray-500: #64748b;
+    --color-gray-600: #475569;
+    --color-gray-700: #334155;
+    --color-gray-800: #1e293b;
+    --color-gray-900: #0f172a;
+    --color-gray-950: #020617;
+
+    --color-zinc-50: #f8fafc;
+    --color-zinc-100: #f1f5f9;
+    --color-zinc-200: #e2e8f0;
+    --color-zinc-300: #cbd5e1;
+    --color-zinc-400: #94a3b8;
+    --color-zinc-500: #64748b;
+    --color-zinc-600: #475569;
+    --color-zinc-700: #334155;
+    --color-zinc-800: #172033;
+    --color-zinc-900: #0f172a;
+    --color-zinc-950: #020617;
+
+    --color-accent: #2563eb;
+    --color-accent-content: #2563eb;
+    --color-accent-foreground: #ffffff;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Application colors
+|--------------------------------------------------------------------------
+*/
+
+:root {
+    color-scheme: light;
+
+    --app-body: #eef2f7;
+    --app-main: #f8fafc;
+
+    --app-sidebar: #ffffff;
+    --app-sidebar-border: #dbe3ee;
+
+    --app-card: #ffffff;
+    --app-card-secondary: #f8fafc;
+    --app-card-border: #dbe3ee;
+
+    --app-input: #ffffff;
+    --app-input-border: #cbd5e1;
+
+    --app-text: #0f172a;
+    --app-text-secondary: #475569;
+    --app-text-muted: #64748b;
+
+    --app-primary: #2563eb;
+    --app-primary-dark: #1d4ed8;
+    --app-primary-soft: #eff6ff;
+
+    --app-success: #16a34a;
+    --app-warning: #d97706;
+    --app-danger: #dc2626;
+
+    --app-shadow:
+        0 1px 2px rgb(15 23 42 / 0.04),
+        0 10px 30px rgb(15 23 42 / 0.06);
+}
+
+.dark {
+    color-scheme: dark;
+
+    --app-body: #050b16;
+    --app-main: #07101f;
+
+    --app-sidebar: #091321;
+    --app-sidebar-border: #1d2a3f;
+
+    --app-card: #111d31;
+    --app-card-secondary: #17243a;
+    --app-card-border: #2b3b55;
+
+    --app-input: #18263e;
+    --app-input-border: #3b4d69;
+
+    --app-text: #f8fafc;
+    --app-text-secondary: #cbd5e1;
+    --app-text-muted: #8fa0b8;
+
+    --app-primary: #3b82f6;
+    --app-primary-dark: #2563eb;
+    --app-primary-soft: rgb(37 99 235 / 0.14);
+
+    --app-success: #22c55e;
+    --app-warning: #f59e0b;
+    --app-danger: #ef4444;
+
+    --app-shadow:
+        0 1px 2px rgb(0 0 0 / 0.22),
+        0 12px 34px rgb(0 0 0 / 0.22);
+
+    --color-accent: #3b82f6;
+    --color-accent-content: #60a5fa;
+    --color-accent-foreground: #ffffff;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Base
+|--------------------------------------------------------------------------
+*/
+
+@layer base {
+    *,
+    *::before,
+    *::after,
+    ::backdrop,
+    ::file-selector-button {
+        box-sizing: border-box;
+        border-color: var(--app-card-border);
+    }
+
+    html {
+        min-height: 100%;
+        font-size: 16px;
+        scroll-behavior: smooth;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+        min-height: 100vh;
+        margin: 0;
+        overflow-x: hidden;
+
+        color: var(--app-text);
+        background: var(--app-body);
+
+        font-family: var(--font-sans);
+        font-size: 0.9375rem;
+        line-height: 1.55;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        color: var(--app-text);
+        font-weight: 700;
+        letter-spacing: -0.025em;
+    }
+
+    p {
+        color: var(--app-text-secondary);
+    }
+
+    input,
+    select,
+    textarea,
+    button {
+        font: inherit;
+    }
+
+    ::selection {
+        color: #ffffff;
+        background: var(--app-primary);
+    }
+}
+
+/*
+|--------------------------------------------------------------------------
+| Sidebar
+|--------------------------------------------------------------------------
+*/
+
+.app-sidebar {
+    width: 18rem !important;
+    min-width: 18rem !important;
+    padding: 1rem !important;
+
+    color: var(--app-text) !important;
+
+    background:
+        radial-gradient(
+            circle at 20% 0%,
+            rgb(59 130 246 / 0.12),
+            transparent 15rem
+        ),
+        var(--app-sidebar) !important;
+
+    border-right:
+        1px solid var(--app-sidebar-border) !important;
+
+    box-shadow:
+        8px 0 30px rgb(0 0 0 / 0.08);
+
+    scrollbar-width: thin;
+    scrollbar-color: #475569 transparent;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Brand
+|--------------------------------------------------------------------------
+*/
+
+.app-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    min-height: 4.75rem;
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+
+    text-decoration: none;
+
+    border-bottom:
+        1px solid var(--app-sidebar-border);
+}
+
+.app-brand-logo {
+    display: flex;
+    width: 2.8rem;
+    height: 2.8rem;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+
+    color: #ffffff;
+    background:
+        linear-gradient(
+            135deg,
+            #3b82f6,
+            #1d4ed8
+        );
+
+    border-radius: 0.8rem;
+
+    font-size: 0.9rem;
+    font-weight: 800;
+
+    box-shadow:
+        0 10px 24px rgb(37 99 235 / 0.32);
+
+    transition:
+        transform 160ms ease,
+        box-shadow 160ms ease;
+}
+
+.app-brand:hover .app-brand-logo {
+    transform: translateY(-1px) scale(1.04);
+
+    box-shadow:
+        0 14px 30px rgb(37 99 235 / 0.42);
+}
+
+.app-brand-title {
+    margin: 0;
+
+    color: var(--app-text) !important;
+
+    font-size: 0.95rem;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.app-brand-subtitle {
+    margin: 0.2rem 0 0;
+
+    color: var(--app-text-muted) !important;
+
+    font-size: 0.7rem;
+    line-height: 1.2;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Sidebar navigation
+|--------------------------------------------------------------------------
+*/
+
+.app-navigation {
+    display: grid;
+    gap: 0.35rem;
+}
+
+.app-navigation [role='heading'],
+.app-navigation h2,
+.app-navigation h3 {
+    margin:
+        0.9rem
+        0
+        0.35rem;
+
+    padding:
+        0
+        0.65rem;
+
+    color: var(--app-text-muted) !important;
+
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: 0.07em;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+.app-navigation a,
+.app-navigation button {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+
+    min-height: 2.6rem;
+    margin: 0.08rem 0;
+    padding:
+        0.62rem
+        0.75rem;
+
+    color: var(--app-text-secondary) !important;
+    background: transparent !important;
+
+    border:
+        1px solid transparent !important;
+    border-radius: 0.72rem;
+
+    font-size: 0.83rem;
+    font-weight: 650;
+    line-height: 1.25;
+
+    text-decoration: none;
+
+    transition:
+        color 150ms ease,
+        background-color 150ms ease,
+        border-color 150ms ease,
+        transform 150ms ease,
+        box-shadow 150ms ease;
+}
+
+.app-navigation a:hover,
+.app-navigation button:hover {
+    color: var(--app-text) !important;
+    background: var(--app-primary-soft) !important;
+
+    border-color:
+        rgb(59 130 246 / 0.24) !important;
+
+    transform: translateX(3px);
+
+    box-shadow:
+        0 5px 16px rgb(37 99 235 / 0.1);
+}
+
+.app-navigation a[aria-current='page'],
+.app-navigation button[aria-current='page'],
+.app-navigation [data-current],
+.app-navigation [data-active] {
+    color: #ffffff !important;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #1d4ed8
+        ) !important;
+
+    border-color: #3b82f6 !important;
+
+    box-shadow:
+        0 9px 22px rgb(37 99 235 / 0.3);
+}
+
+.app-navigation a[aria-current='page']::before,
+.app-navigation [data-current]::before,
+.app-navigation [data-active]::before {
+    position: absolute;
+    top: 24%;
+    left: 0;
+
+    width: 3px;
+    height: 52%;
+
+    content: '';
+
+    background: #ffffff;
+    border-radius: 0 999px 999px 0;
+}
+
+.app-navigation svg {
+    width: 1.1rem;
+    height: 1.1rem;
+    flex: 0 0 auto;
+
+    opacity: 0.85;
+
+    transition:
+        opacity 150ms ease,
+        transform 150ms ease;
+}
+
+.app-navigation a:hover svg,
+.app-navigation button:hover svg {
+    opacity: 1;
+    transform: scale(1.08);
+}
+
+.app-user-menu {
+    padding-top: 0.75rem;
+
+    border-top:
+        1px solid var(--app-sidebar-border);
+}
+
+/*
+|--------------------------------------------------------------------------
+| Main content global layout fix
+|--------------------------------------------------------------------------
+*/
+
+.app-main-shell {
+    display: block !important;
+
+    min-width: 0 !important;
+    max-width: none !important;
+    min-height: 100vh !important;
+
+    padding:
+        2rem
+        clamp(1.25rem, 2.5vw, 3rem)
+        3rem !important;
+
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+
+    color: var(--app-text);
+
+    background:
+        radial-gradient(
+            circle at 100% 0%,
+            rgb(59 130 246 / 0.075),
+            transparent 34rem
+        ),
+        var(--app-main) !important;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Page wrapper
+|--------------------------------------------------------------------------
+*/
+
+.app-page-shell {
+    display: block !important;
+
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    align-self: stretch !important;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Every Livewire page starts at top-left
+|--------------------------------------------------------------------------
+*/
+
+.app-page-shell > * {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+
+    margin-top: 0 !important;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+
+    align-self: stretch !important;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Remove full-screen centering from generated pages
+|--------------------------------------------------------------------------
+*/
+
+.app-page-shell > .min-h-screen {
+    min-height: auto !important;
+}
+
+.app-page-shell > .h-screen {
+    height: auto !important;
+}
+
+.app-page-shell > .flex.items-center.justify-center {
+    display: block !important;
+
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+}
+
+.app-page-shell > .grid.place-items-center {
+    display: block !important;
+
+    place-items: initial !important;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Remove outer max-width restriction only
+|--------------------------------------------------------------------------
+*/
+
+.app-page-shell > [class*='max-w-'],
+.app-page-shell > [class*='container'] {
+    width: 100% !important;
+    max-width: none !important;
+
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Fix a centered inner wrapper
+|--------------------------------------------------------------------------
+*/
+
+.app-page-shell
+    > .min-h-screen
+    > [class*='max-w-'],
+.app-page-shell
+    > .min-h-screen
+    > [class*='container'],
+.app-page-shell
+    > .flex.items-center.justify-center
+    > [class*='max-w-'],
+.app-page-shell
+    > .grid.place-items-center
+    > [class*='max-w-'] {
+    width: 100% !important;
+    max-width: none !important;
+
+    margin: 0 !important;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Standard page spacing
+|--------------------------------------------------------------------------
+*/
+
+.app-page-shell > .space-y-4,
+.app-page-shell > .space-y-5,
+.app-page-shell > .space-y-6,
+.app-page-shell > .space-y-8 {
+    width: 100% !important;
+    max-width: none !important;
+
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Page headings
+|--------------------------------------------------------------------------
+*/
+
+.app-page-shell h1 {
+    color: var(--app-text);
+
+    font-size: clamp(
+        1.55rem,
+        1.7vw,
+        2rem
+    );
+
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.app-page-shell h2 {
+    color: var(--app-text);
+
+    font-size: 1.15rem;
+    font-weight: 750;
+}
+
+.app-page-shell h3 {
+    color: var(--app-text);
+
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Cards
+|--------------------------------------------------------------------------
+*/
+
+.app-page-shell .rounded-xl.border,
+.app-page-shell .rounded-2xl.border,
+.app-page-shell .rounded-lg.border {
+    border-color:
+        var(--app-card-border) !important;
+
+    box-shadow: var(--app-shadow);
+
+    transition:
+        border-color 170ms ease,
+        box-shadow 170ms ease,
+        transform 170ms ease;
+}
+
+.dark .app-page-shell .bg-white,
+.dark .app-page-shell .dark\:bg-gray-900 {
+    background:
+        var(--app-card) !important;
+}
+
+.dark .app-page-shell .dark\:bg-gray-800 {
+    background:
+        var(--app-card-secondary) !important;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Forms
+|--------------------------------------------------------------------------
+*/
+
+[data-flux-field]:not(ui-radio):not(ui-checkbox) {
+    display: grid;
+    gap: 0.5rem;
+}
+
+[data-flux-label],
+.app-page-shell label {
+    color: var(--app-text-secondary) !important;
+
+    font-size: 0.8rem;
+    font-weight: 650;
+    line-height: 1.35;
+}
+
+.app-page-shell
+input:not([type='checkbox']):not([type='radio']),
+.app-page-shell select,
+.app-page-shell textarea {
+    min-height: 2.75rem;
+
+    color: var(--app-text) !important;
+    background: var(--app-input) !important;
+
+    border:
+        1px solid var(--app-input-border) !important;
+    border-radius: 0.65rem;
+
+    font-size: 0.875rem;
+
+    transition:
+        border-color 150ms ease,
+        box-shadow 150ms ease,
+        background-color 150ms ease;
+}
+
+.app-page-shell textarea {
+    min-height: 7rem;
+    resize: vertical;
+}
+
+.app-page-shell
+input:not([type='checkbox']):not([type='radio']):hover,
+.app-page-shell select:hover,
+.app-page-shell textarea:hover {
+    border-color:
+        rgb(59 130 246 / 0.55) !important;
+}
+
+.app-page-shell
+input:not([type='checkbox']):not([type='radio']):focus,
+.app-page-shell select:focus,
+.app-page-shell textarea:focus {
+    outline: none !important;
+
+    border-color:
+        var(--app-primary) !important;
+
+    box-shadow:
+        0 0 0 3px
+        rgb(59 130 246 / 0.16) !important;
+}
+
+.app-page-shell input::placeholder,
+.app-page-shell textarea::placeholder {
+    color: var(--app-text-muted) !important;
+    opacity: 0.78;
+}
+
+.app-page-shell input[type='checkbox'] {
+    width: 1rem;
+    height: 1rem;
+
+    accent-color: var(--app-primary);
+
+    cursor: pointer;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Buttons
+|--------------------------------------------------------------------------
+*/
+
+.app-page-shell button,
+.app-page-shell a[class*='rounded-lg'] {
+    font-size: 0.81rem;
+    font-weight: 700;
+
+    transition:
+        color 150ms ease,
+        background-color 150ms ease,
+        border-color 150ms ease,
+        box-shadow 150ms ease,
+        transform 150ms ease,
+        opacity 150ms ease;
+}
+
+.app-page-shell button:hover:not(:disabled),
+.app-page-shell a[class*='rounded-lg']:hover {
+    transform: translateY(-1px);
+}
+
+.app-page-shell button:active:not(:disabled),
+.app-page-shell a[class*='rounded-lg']:active {
+    transform: translateY(0);
+}
+
+.app-page-shell button:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+.app-page-shell .bg-blue-600 {
+    color: #ffffff !important;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #1d4ed8
+        ) !important;
+
+    border-color: #3b82f6 !important;
+
+    box-shadow:
+        0 6px 16px rgb(37 99 235 / 0.24);
+}
+
+.app-page-shell .bg-blue-600:hover {
+    background:
+        linear-gradient(
+            135deg,
+            #1d4ed8,
+            #1e40af
+        ) !important;
+
+    box-shadow:
+        0 9px 22px rgb(37 99 235 / 0.34);
+}
+
+.app-page-shell .bg-green-600 {
+    color: #ffffff !important;
+
+    background:
+        linear-gradient(
+            135deg,
+            #16a34a,
+            #15803d
+        ) !important;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Tables
+|--------------------------------------------------------------------------
+*/
+
+.app-page-shell table {
+    width: 100%;
+
+    border-collapse: separate;
+    border-spacing: 0;
+
+    color: var(--app-text);
+}
+
+.app-page-shell thead {
+    background:
+        rgb(59 130 246 / 0.06) !important;
+}
+
+.dark .app-page-shell thead {
+    background:
+        rgb(59 130 246 / 0.09) !important;
+}
+
+.app-page-shell thead th {
+    color: var(--app-text-secondary) !important;
+
+    font-size: 0.69rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+
+    border-bottom:
+        1px solid var(--app-card-border);
+}
+
+.app-page-shell tbody td {
+    color: var(--app-text-secondary);
+
+    font-size: 0.81rem;
+
+    border-bottom:
+        1px solid var(--app-card-border);
+}
+
+.app-page-shell tbody tr {
+    transition:
+        background-color 150ms ease;
+}
+
+.app-page-shell tbody tr:hover {
+    background:
+        rgb(59 130 246 / 0.05) !important;
+}
+
+.dark .app-page-shell tbody tr:hover {
+    background:
+        rgb(59 130 246 / 0.08) !important;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Badges
+|--------------------------------------------------------------------------
+*/
+
+.app-page-shell span[class*='rounded-full'] {
+    display: inline-flex;
+    min-height: 1.6rem;
+    align-items: center;
+    justify-content: center;
+
+    padding-right: 0.65rem;
+    padding-left: 0.65rem;
+
+    font-size: 0.69rem;
+    font-weight: 750;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Modal
+|--------------------------------------------------------------------------
+*/
+
+.app-page-shell .fixed.inset-0 {
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.app-page-shell .fixed.inset-0 > div {
+    border:
+        1px solid var(--app-card-border);
+
+    box-shadow:
+        0 30px 80px rgb(0 0 0 / 0.4);
+}
+
+/*
+|--------------------------------------------------------------------------
+| Pagination
+|--------------------------------------------------------------------------
+*/
+
+.app-page-shell nav[role='navigation'] {
+    color: var(--app-text-secondary);
+}
+
+.app-page-shell nav[role='navigation'] a,
+.app-page-shell nav[role='navigation'] span {
+    border-color:
+        var(--app-card-border) !important;
+}
+
+.app-page-shell nav[role='navigation'] a:hover {
+    color: var(--app-primary);
+    background: var(--app-primary-soft);
+}
+
+/*
+|--------------------------------------------------------------------------
+| Mobile header
+|--------------------------------------------------------------------------
+*/
+
+.app-mobile-header {
+    color: var(--app-text) !important;
+    background: var(--app-sidebar) !important;
+
+    border-bottom:
+        1px solid var(--app-sidebar-border) !important;
+
+    box-shadow:
+        0 5px 18px rgb(0 0 0 / 0.12);
+}
+
+/*
+|--------------------------------------------------------------------------
+| Scrollbars
+|--------------------------------------------------------------------------
+*/
+
+::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #475569;
+    border:
+        2px solid transparent;
+    border-radius: 999px;
+    background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #64748b;
+    border:
+        2px solid transparent;
+    background-clip: padding-box;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Responsive
+|--------------------------------------------------------------------------
+*/
+
+@media (max-width: 1279px) {
+    .app-main-shell {
+        padding:
+            1.5rem
+            1.5rem
+            3rem !important;
+    }
+}
+
+@media (max-width: 1023px) {
+    .app-sidebar {
+        width: 18rem !important;
+        min-width: 18rem !important;
+    }
+}
+
+@media (max-width: 767px) {
+    body {
+        font-size: 0.875rem;
+    }
+
+    .app-main-shell {
+        min-height: auto !important;
+
+        padding:
+            1rem
+            0.875rem
+            2rem !important;
+    }
+
+    .app-page-shell h1 {
+        font-size: 1.4rem;
+    }
+
+    .app-page-shell > * {
+        min-width: 0 !important;
+    }
+}
+
+/*
+|--------------------------------------------------------------------------
+| Reduced motion
+|--------------------------------------------------------------------------
+*/
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+    }
+}
