@@ -5,12 +5,15 @@ on:
     branches:
       - main
   pull_request:
+    branches:
+      - main
 
 permissions:
   contents: read
 
 jobs:
   ci:
+    name: Laravel CI
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
@@ -19,7 +22,7 @@ jobs:
       APP_DEBUG: true
 
       DB_CONNECTION: sqlite
-      DB_DATABASE: database/database.sqlite
+      DB_DATABASE: ${{ github.workspace }}/database/database.sqlite
 
       CACHE_STORE: array
       SESSION_DRIVER: array
@@ -35,15 +38,15 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240
         with:
-          php-version: '8.3'
+          php-version: "8.3"
           extensions: mbstring, pdo_sqlite, sqlite3
           tools: composer:v2
           coverage: none
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e
         with:
-          node-version: '22'
+          node-version: "22"
           cache: npm
 
       - name: Install Composer dependencies
@@ -54,15 +57,38 @@ jobs:
             --no-progress \
             --no-scripts
 
-      - name: Prepare Laravel application
+      - name: Create Laravel runtime directories
+        run: |
+          mkdir -p database
+          mkdir -p storage/app/public
+          mkdir -p storage/framework/cache/data
+          mkdir -p storage/framework/sessions
+          mkdir -p storage/framework/testing
+          mkdir -p storage/framework/views
+          mkdir -p storage/logs
+          mkdir -p bootstrap/cache
+
+          touch database/database.sqlite
+          touch storage/logs/laravel.log
+
+          chmod -R u+rwX,g+rwX storage
+          chmod -R u+rwX,g+rwX bootstrap/cache
+          chmod -R u+rwX,g+rwX database
+
+      - name: Prepare environment
         run: |
           cp .env.example .env
-          mkdir -p database
-          touch database/database.sqlite
+
           php artisan key:generate --ansi
-          composer run-script post-autoload-dump
           php artisan config:clear
-          php artisan migrate:fresh --force --ansi
+          php artisan cache:clear
+          php artisan view:clear
+
+      - name: Discover Laravel packages
+        run: composer run-script post-autoload-dump
+
+      - name: Run database migrations
+        run: php artisan migrate:fresh --force --ansi
 
       - name: Install frontend dependencies
         run: npm ci

@@ -13,6 +13,7 @@ class Payment extends Model
 {
     /** @use HasFactory<Factory<static>> */
     use HasFactory;
+
     use SoftDeletes;
 
     public const DIRECTION_RECEIPT = 'receipt';
@@ -48,7 +49,7 @@ class Payment extends Model
         ];
     }
 
-    /** @return MorphTo<\Illuminate\Database\Eloquent\Model, $this> */
+    /** @return MorphTo<Model, $this> */
     public function payable(): MorphTo
     {
         return $this->morphTo();

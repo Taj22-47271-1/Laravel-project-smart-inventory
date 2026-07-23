@@ -13,6 +13,7 @@ class StockAdjustment extends Model
 {
     /** @use HasFactory<Factory<static>> */
     use HasFactory;
+
     use SoftDeletes;
 
     public const STATUS_DRAFT = 'draft';

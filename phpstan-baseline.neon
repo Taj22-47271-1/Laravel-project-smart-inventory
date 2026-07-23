@@ -1,3 +1,7 @@
 parameters:
-	ignoreErrors: []
-
+	ignoreErrors:
+		-
+			message: '#^Method App\\Models\\StockAdjustment\:\:completedBy\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/StockAdjustment.php
