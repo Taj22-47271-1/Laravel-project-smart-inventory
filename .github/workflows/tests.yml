@@ -55,7 +55,8 @@ jobs:
             --no-interaction \
             --prefer-dist \
             --no-progress \
-            --no-scripts
+            --no-scripts \
+            --no-cache
 
       - name: Create Laravel runtime directories
         run: |
